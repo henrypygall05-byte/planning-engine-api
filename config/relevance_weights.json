@@ -1,0 +1,43 @@
+{
+  "doc_diversity_target": 3,
+  "max_evidence_items": 10,
+  "topic_penalties": {
+    "leisure": 3.200000000000001,
+    "tourism": 3.200000000000001,
+    "employment": 1.5,
+    "retail": 1.5,
+    "nightlife": 3.200000000000001
+  },
+  "c3_keyword_boost": 2.0,
+  "c3_keywords": [
+    "c3",
+    "dwelling",
+    "dwellinghouse",
+    "residential",
+    "change of use",
+    "amenity",
+    "noise",
+    "overlooking",
+    "privacy",
+    "bin",
+    "cycle",
+    "parking",
+    "highway",
+    "refuse storage",
+    "internal alterations"
+  ],
+  "irrelevance_penalty_per_hit": 1.2,
+  "min_score_floor": 0.1,
+  "doc_boost": {
+    "nppf_2024": 1.09,
+    "dap_2020": 1.06,
+    "csucp_2015": 0.94
+  },
+  "topic_penalty": {
+    "leisure": 0.8099999999999999,
+    "tourism": 0.8099999999999999,
+    "nightclub": 0.8099999999999999,
+    "employment land": 0.8099999999999999,
+    "retail hierarchy": 0.8099999999999999
+  }
+}

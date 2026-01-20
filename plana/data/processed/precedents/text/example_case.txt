@@ -1,0 +1,23 @@
+
+
+=== PAGE 1 ===
+
+PLANNING DECISION NOTICE
+Local Planning Authority: Newcastle City Council
+Application Reference: 2023/1234/01/DET
+Site Address: 12 Example Street, Newcastle upon Tyne
+Proposal:
+Single storey rear extension to existing dwelling.
+Decision:
+APPROVED WITH CONDITIONS
+Reasons for Approval:
+The proposed development is considered acceptable in terms of scale,
+design and impact on residential amenity. It would not result in an
+unacceptable loss of light, privacy or outlook to neighbouring occupiers.
+The proposal accords with the Development and Allocations Plan (2020)
+and the Core Strategy and Urban Core Plan (2015), in particular policies
+relating to residential amenity and design quality.
+Conditions:
+1. The development shall be carried out in accordance with the approved plans.
+2. Materials shall match the existing dwelling unless otherwise agreed in writing.
+Decision Date: 14 March 2023

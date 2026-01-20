@@ -1,0 +1,11 @@
+== Report Quality Check ==
+Payload: /Users/henrypygall/Desktop/Plana/Newcastle/logs/payload_latest.json
+Decision: approve_with_conditions
+Docs in top citations: 1 (csucp_2015)
+C3 relevance hits (top evidence): [2, 3, 1, 1, 1, 2, 1, 1, 0, 1]  (sum=13)
+⚠️ Irrelevance signals detected: [6, 0, 1, 0, 0, 0, 0, 0, 0, 3] (sum=10)
+Quality score (heuristic): 49/100
+
+Warnings:
+- Low document diversity in top citations (only 1 doc).
+- Some evidence looks unrelated (e.g., leisure/tourism/etc.).

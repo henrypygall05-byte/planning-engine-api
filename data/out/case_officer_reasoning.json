@@ -1,0 +1,177 @@
+{
+  "input": {
+    "proposal": "Change of use to C3 dwelling with rear extension",
+    "address": "Newcastle upon Tyne",
+    "use_class": "C3",
+    "k": 15
+  },
+  "similar_cases": [
+    {
+      "rank": 1,
+      "score": 0.2663,
+      "application_ref": "1999/1300",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 2,
+      "score": 0.2576,
+      "application_ref": "1987/005",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 3,
+      "score": 0.2447,
+      "application_ref": "2025/1039",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 4,
+      "score": 0.2418,
+      "application_ref": "2025/1987",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 5,
+      "score": 0.2409,
+      "application_ref": "1997/002",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 6,
+      "score": 0.2403,
+      "application_ref": "2025/1992",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 7,
+      "score": 0.2391,
+      "application_ref": "2025/1887",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 8,
+      "score": 0.2388,
+      "application_ref": "2005/0548",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 9,
+      "score": 0.2372,
+      "application_ref": "1981/005",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 10,
+      "score": 0.2355,
+      "application_ref": "1968/023",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 11,
+      "score": 0.2337,
+      "application_ref": "2021/1551",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 12,
+      "score": 0.2327,
+      "application_ref": "2025/1320",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 13,
+      "score": 0.232,
+      "application_ref": "2025/1560",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 14,
+      "score": 0.23,
+      "application_ref": "2025/1133",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    },
+    {
+      "rank": 15,
+      "score": 0.2296,
+      "application_ref": "2024/0509",
+      "proposal": null,
+      "site_address": null,
+      "decision": null,
+      "received_date": null,
+      "url": null
+    }
+  ],
+  "summary": {
+    "approved_count": 0,
+    "refused_count": 0,
+    "unknown_count": 15,
+    "approval_rate_estimate": 0.5,
+    "approval_likelihood": "medium"
+  },
+  "common_conditions": [],
+  "policy_conflicts": [
+    "Design/amenity impacts: daylight/overlooking/scale and character.",
+    "Change of use: assess suitability of location, noise/amenity, parking, character."
+  ],
+  "reasoning": "Compared against 15 similar Newcastle cases using text similarity (proposal + address + use class).\nMost similar cases do not yet have recorded outcomes in the database; treat likelihood as indicative only.\nPotential policy/assessment focus areas flagged from proposal keywords:\n- Design/amenity impacts: daylight/overlooking/scale and character.\n- Change of use: assess suitability of location, noise/amenity, parking, character.",
+  "notes": [
+    "This is a pilot reasoning layer based on similarity + recorded fields in the DB.",
+    "To make this officer-grade, next step is scraping decision notices to capture conditions and reasons verbatim."
+  ]
+}

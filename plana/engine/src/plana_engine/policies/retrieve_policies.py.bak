@@ -1,0 +1,217 @@
+import os
+import re
+import sqlite3
+from dataclasses import dataclass, asdict
+from pathlib import Path
+from typing import List, Optional, Dict, Any, Tuple
+
+STOPWORDS = {
+    "the","and","or","a","an","to","of","in","for","on","at","by","with","from","as",
+    "is","are","be","been","being","that","this","these","those","it","its","their",
+    "will","would","should","may","might","can","could","must","not","no"
+}
+
+def _detect_topic(q: str) -> str:
+    ql = q.lower()
+    # Very simple topic routing (good enough for Stage 3 hardening)
+    if any(k in ql for k in ["rear extension", "loft", "single storey", "two storey", "dormer", "outbuilding", "garage", "porch", "window", "door", "boundary wall", "fence"]):
+        return "householder"
+    if any(k in ql for k in ["listed", "conservation area", "heritage", "historic", "battlefield"]):
+        return "heritage"
+    if any(k in ql for k in ["parking", "traffic", "highway", "visibility", "access", "road", "junction"]):
+        return "highways"
+    if any(k in ql for k in ["flood", "surface water", "drainage", "suds"]):
+        return "flood"
+    if any(k in ql for k in ["trees", "tpo", "arboricultural"]):
+        return "trees"
+    return "general"
+
+
+def _tokenize(text: str) -> List[str]:
+    text = text.lower()
+    text = re.sub(r"[^a-z0-9\s\-]", " ", text)
+    toks = [t for t in text.split() if len(t) >= 3 and t not in STOPWORDS]
+    return toks
+
+def db_path() -> str:
+    return os.getenv(
+        "PLANA_DB_PATH",
+        str(Path(__file__).resolve().parents[3] / "data" / "plana.sqlite")
+    )
+
+@dataclass
+class PolicyHit:
+    authority: str
+    doc_key: str
+    doc_title: str
+    source_path: str
+    paragraph_ref: str
+    page_start: Optional[int]
+    page_end: Optional[int]
+    score: float
+    snippet: str
+    text: str
+
+def _build_where(filters: Dict[str, Any]) -> Tuple[str, List[Any]]:
+    wh = []
+    params: List[Any] = []
+
+    auth = filters.get("authority")
+    if auth:
+        wh.append("authority = ?")
+        params.append(auth)
+
+    doc_keys = filters.get("doc_keys")
+    if doc_keys:
+        wh.append("doc_key IN (%s)" % ",".join(["?"] * len(doc_keys)))
+        params.extend(doc_keys)
+
+    return ("WHERE " + " AND ".join(wh)) if wh else "", params
+
+def _score_text(text: str, q_tokens: List[str]) -> float:
+    # Simple scoring + policy-first bias + noise suppression (for council-defensible evidence)
+    if not text:
+        return 0.0
+    t = text.lower()
+
+    # Noise suppression
+    if "glossary" in t or "appendix" in t or "table " in t:
+        return 0.0
+
+    score = 0.0
+    for tok in q_tokens:
+        c = t.count(tok)
+        if c:
+            score += 1.0 + (c ** 0.5)
+
+    # Policy-first boost (DM / CS policies)
+    if re.search(r"\bpolicy\s+(dm|cs)\d+\b", t):
+        score *= 1.35
+
+    # Amenity/design boost
+    if any(k in t for k in ["residential amenity", "daylight", "sunlight", "privacy", "overlooking", "outlook", "scale", "materials"]):
+        score *= 1.15
+
+    # length normalisation
+    score = score / (1.0 + (len(text) / 2000.0))
+    return float(score)
+
+def retrieve_policies(
+    query: str,
+    top_k: int = 8,
+    authority: Optional[str] = None,
+    doc_keys: Optional[List[str]] = None,
+    min_score: float = 2.0
+) -> Dict[str, Any]:
+    """
+    Returns:
+      {
+        "ok": bool,
+        "reason": str | None,
+        "query": str,
+        "filters": {...},
+        "results": [PolicyHit...]
+      }
+    """
+    q_tokens = _tokenize(query)
+    if len(q_tokens) < 2:
+        return {
+            "ok": False,
+            "reason": "Query too short for reliable retrieval",
+            "query": query,
+            "filters": {"authority": authority, "doc_keys": doc_keys},
+            "results": []
+        }
+
+    filters = {"authority": authority, "doc_keys": doc_keys}
+    where_sql, params = _build_where(filters)
+
+    con = sqlite3.connect(db_path())
+    con.row_factory = sqlite3.Row
+
+    # Pull a candidate set using LIKE on tokens (cheap filter), then score in Python.
+    # Candidate limit protects performance.
+    like_clauses = []
+    like_params = []
+    for tok in q_tokens[:8]:
+        like_clauses.append("text LIKE ?")
+        like_params.append(f"%{tok}%")
+
+    token_where = ""
+    if like_clauses:
+        token_where = (" AND (" + " OR ".join(like_clauses) + ")") if where_sql else ("WHERE " + " OR ".join(like_clauses))
+
+    sql = f"""
+      SELECT authority, doc_key, doc_title, source_path, paragraph_ref, page_start, page_end, text
+      FROM policy_chunks
+      {where_sql}
+      {token_where if token_where else ""}
+      LIMIT 400
+    """
+
+    rows = con.execute(sql, params + like_params).fetchall()
+    con.close()
+
+    scored: List[PolicyHit] = []
+    for r in rows:
+        txt = r["text"] or ""
+        s = _score_text(txt, q_tokens)
+        if s <= 0:
+            continue
+        snippet = (txt[:240] + "…") if len(txt) > 240 else txt
+        scored.append(PolicyHit(
+            authority=r["authority"],
+            doc_key=r["doc_key"],
+            doc_title=r["doc_title"],
+            source_path=r["source_path"],
+            paragraph_ref=r["paragraph_ref"],
+            page_start=r["page_start"],
+            page_end=r["page_end"],
+            score=s,
+            snippet=snippet,
+            text=txt
+        ))
+
+    scored.sort(key=lambda x: x.score, reverse=True)
+    results = scored[:top_k]
+
+    if not results or results[0].score < min_score:
+        return {
+            "ok": False,
+            "reason": "Insufficient evidence from policy retrieval (low confidence)",
+            "query": query,
+            "filters": {"authority": authority, "doc_keys": doc_keys},
+            "results": [asdict(h) for h in results]
+        }
+
+    return {
+        "ok": True,
+        "reason": None,
+        "query": query,
+        "filters": {"authority": authority, "doc_keys": doc_keys},
+        "results": [asdict(h) for h in results]
+    }
+
+def main():
+    import argparse, json
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--query", required=True)
+    ap.add_argument("--top_k", type=int, default=8)
+    ap.add_argument("--authority", default=None)
+    ap.add_argument("--doc_keys", default=None, help="Comma-separated, e.g. dap_2020,csucp_2015,nppf_2024")
+    ap.add_argument("--min_score", type=float, default=2.0)
+    args = ap.parse_args()
+
+    doc_keys = [d.strip() for d in args.doc_keys.split(",")] if args.doc_keys else None
+
+    out = retrieve_policies(
+        query=args.query,
+        top_k=args.top_k,
+        authority=args.authority,
+        doc_keys=doc_keys,
+        min_score=args.min_score
+    )
+    print(json.dumps(out, indent=2))
+
+if __name__ == "__main__":
+    main()

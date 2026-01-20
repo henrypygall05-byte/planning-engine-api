@@ -1,0 +1,254 @@
+{
+  "ok": true,
+  "reason": null,
+  "input": {
+    "proposal_text": "Change of use to a single dwellinghouse (Use Class C3), including internal alterations, at Newcastle upon Tyne.",
+    "authority": "newcastle",
+    "doc_keys": [
+      "dap_2020",
+      "csucp_2015",
+      "nppf_2024"
+    ]
+  },
+  "signals": {
+    "policy_avg_score": 9.245549016186027,
+    "policy_count": 10
+  },
+  "policy": {
+    "ok": true,
+    "citations": [
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.72-72#c127",
+        "page_start": 72,
+        "page_end": 72,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 12.037128967460177
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.63-63#c107",
+        "page_start": 63,
+        "page_end": 63,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 10.469181606780271
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.68-68#c118",
+        "page_start": 68,
+        "page_end": 68,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 9.746887261064147
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.60-60#c101",
+        "page_start": 60,
+        "page_end": 60,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 9.285714285714286
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.315-315#c579",
+        "page_start": 315,
+        "page_end": 315,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 9.035137281973087
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.75-75#c136",
+        "page_start": 75,
+        "page_end": 75,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 8.63237599485892
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.185-185#c340",
+        "page_start": 185,
+        "page_end": 185,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 8.394532788941799
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.100-100#c184",
+        "page_start": 100,
+        "page_end": 100,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 8.365392921191319
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.155-155#c287",
+        "page_start": 155,
+        "page_end": 155,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 8.3487805629027
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "paragraph_ref": "pp.130-130#c245",
+        "page_start": 130,
+        "page_end": 130,
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "score": 8.140358490973563
+      }
+    ],
+    "evidence": [
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.72-72#c127",
+        "page_start": 72,
+        "page_end": 72,
+        "score": 12.037128967460177,
+        "snippet": "Leisure, Culture and Tourism \n9.35  Gateshead and Newcastle are recognised as leisure\n, culture and tourist \ndestinations boasting a variety of visitor attractions and a year-round \nevents programme. The Newcastle Gateshead Initiative (NGI)\u2026",
+        "text": "Leisure, Culture and Tourism \n9.35  Gateshead and Newcastle are recognised as leisure\n, culture and tourist \ndestinations boasting a variety of visitor attractions and a year-round \nevents programme. The Newcastle Gateshead Initiative (NGI) is our joint \nleisure, culture and tourism marketing company, which has raised the \nnational and international profile of Gateshead and Newcastle and the \nwider North East.\n9.36\n  For the purposes of Policy CS8, leisure, culture and tourism uses are\n \ntaken to include use classes C1 (e.g. hotels and guest houses), D1 (e.g. \nmuseums and art galleries), D2 (e.g. cinemas, music and concert halls, and \ngyms) and other Sui Generis uses including theatres and nightclubs. \n9.37\n  Our leisure, culture and tourism attractions are spread acros\ns our 3 \nspatial character areas.\n  \u2022   People visit the Urban Core for shopping, for football at St James\u2019\n \nPark, for our city library, museums and galleries - including the \nrecently refurbished Great North Museum, the BALTIC Centre \nfor Contemporary Art, the Centre for Life, and Seven Stories the \nnational centre for children\u2019s books; for live music at the Sage \nGateshead, Metro Radio Arena, O2 Academy and smaller venues \nsuch as the Cluny and Central Hotel; for the theatre - the Theatre \nRoyal, Northern Stage, Journal Tyne Theatre, City Hall and Live \nTheatre; for films at the Gate and Tyneside Cinema.\n  \u2022   People visit our Neighbourhood Area for shopping; for eating and \ncommercial leisur\ne at the Metro"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.63-63#c107",
+        "page_start": 63,
+        "page_end": 63,
+        "score": 10.469181606780271,
+        "snippet": "Policy CS6 Employment Land \nEmployment land will be managed to meet our needs. This will be achieved by:\n 1.  Ensuring a sufficient supply, range and choice of employment land is \nmaintained f\nor class B1, B2 and B8 uses. A minimum of 150 h\u2026",
+        "text": "Policy CS6 Employment Land \nEmployment land will be managed to meet our needs. This will be achieved by:\n 1.  Ensuring a sufficient supply, range and choice of employment land is \nmaintained f\nor class B1, B2 and B8 uses. A minimum of 150 hectares \nof net developable employment land will be identified and allocated \nto meet the gross employment land requirements (including office \nfloorspace).\n 2.  Providing a minimum of 512,000 square metres (gross internal ar\nea) of \noffice floor space including: \n  i.  The Urban Core as the focus for the majority of office de\nvelopment, \n  ii.   A limited amount of office development at Team Valle\ny, Newcastle \nInternational Airport and Metrogreen, and\n 3.   Requiring proposals over 200 square metres (net internal area) f\nor office \ndevelopment in locations outside 2i and 2ii to undertake an impact and \nsequential assessment.\n9.14\n  Gateshead and Newcastle will plan for sufficient employment land to \nmeet the future needs of the ec\nonomy and accommodate potential \njobs growth in key economic sectors. The ELRs29 for both Gateshead \nand Newcastle identified the amount of office floorspace and industrial \nand warehousing land required over the plan period, to cater for the \nprojected jobs growth. For employment uses, the studies identified \nthe need to ensure provision to 2030 of a minimum of 150 hectares \nof developable land (70 hectares in Gateshead and 80 hectares in \nNewcastle) based on forecasted growth to meet the gross employment \nland"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.68-68#c118",
+        "page_start": 68,
+        "page_end": 68,
+        "score": 9.746887261064147,
+        "snippet": "9.22  Gateshead and Newcastle benefits from a diverse network o f City, \nTown, District and Local Centres with different characters and roles, \nwhich change over time. Many of these centres are performing strongly, \nhowever, certain centres\u2026",
+        "text": "9.22  Gateshead and Newcastle benefits from a diverse network o f City, \nTown, District and Local Centres with different characters and roles, \nwhich change over time. Many of these centres are performing strongly, \nhowever, certain centres are vulnerable, and need support to sustain \nthem into the future.\n9.23\n  The retail hierarchy has been defined, with centres being distributed \nacr\noss Gateshead and Newcastle. This recognises the roles that different \ncentres play. In accordance with Policy CS1, the centres are identified as \nthe most accessible locations in Gateshead and Newcastle, and therefore \nare well placed to be the focus for a range of developments. Policy CS8 \ncomplements Policy CS7 in that it encourages leisure, culture and tourist \nattractions to be focused within our centres proportionate to their scale. \nThe boundaries of Gateshead and Newcastle\u2019s Primary Shopping Areas \nin the Urban Core including the approach to primary frontage, are set \nout in Policies UC2, NC1 and GC1. The approach to other centres in the \nhierarchy, including those where there is a priority for improvement, will \nbe set out in subsequent LDD\u2019s.\n9.24\n  In accordance with Policy CS2, major retail inv\nestment will be focused \nwithin our Urban Core to strengthen the role of Newcastle as the \nregional retail centre, and to underpin Gateshead\u2019s regeneration \nobjectives.\n9.25\n  Newcastle is the regional destination for major retail and related uses\n \nincluding leisure, and there is significan"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.60-60#c101",
+        "page_start": 60,
+        "page_end": 60,
+        "score": 9.285714285714286,
+        "snippet": "9.5 Employment patterns are expected to change over time. In 2010,   \n of the 299,00022 people who worked in Gateshead and Newcastle,  \n around 45% (134,000)22 commuted from the rest of Tyne and Wear,  \n and beyond. Our strategies to 2030 p\u2026",
+        "text": "9.5 Employment patterns are expected to change over time. In 2010,   \n of the 299,00022 people who worked in Gateshead and Newcastle,  \n around 45% (134,000)22 commuted from the rest of Tyne and Wear,  \n and beyond. Our strategies to 2030 plan for an increase in Gateshead\u2019s  \n and Newcastle\u2019s population, and in the size of the resident work\nforce  \n compared with 2010 levels. The growth in employment is e\nxpected  \n to be approximately 22,000 new jobs22. We will continue to rely on  \n some in-commuting for a proportion of our skilled labour force\n, however,  \n our housing policies will encourage more economically active   \n households to live and work in Gateshead and Newcastle. It is   \n anticipated that there will be a slight increase in commuting, although  \n the proportion of jobs filled by in-commuters will decrease. It r\nemains  \n essential to grow employment opportunities in sustainable locations,  \n supported by sustainable modes of transport.\nPolicy CS5 Employment and Economic Gr\nowth Priorities\nGateshead and Newcastle will play a major role in the economic growth of the \nNorth East. They will continue to develop a diverse economy with accessible \nemployment and deliver significant increases in the number of businesses and \njobs. This will be achieved by: \n 1.  Ensuring a range of high quality economic development locations are\n \navailable and attractive to the market.\n 2.  Strengthening and clustering economic assets and promoting growth \nsector\ns including: \n  i. F"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.315-315#c579",
+        "page_start": 315,
+        "page_end": 315,
+        "score": 9.035137281973087,
+        "snippet": "e \nClasses\u2019. Changes of use within the same Use Class or between certain different \nUse Classes as set out in the General Permitted Development Order (GPDO) are \nnormally deemed to have consent and do not in most cases require specific \npla\u2026",
+        "text": "e \nClasses\u2019. Changes of use within the same Use Class or between certain different \nUse Classes as set out in the General Permitted Development Order (GPDO) are \nnormally deemed to have consent and do not in most cases require specific \nplanning permission."
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.75-75#c136",
+        "page_start": 75,
+        "page_end": 75,
+        "score": 8.63237599485892,
+        "snippet": "d Newcastle approximately 4% of homes are empty. Our  \n target is to reduce this to 3%. This is largely conc\nentrated in the   \n private sector stock and although housing vacancy rates have   \n improved (notably in the social sector) this s\u2026",
+        "text": "d Newcastle approximately 4% of homes are empty. Our  \n target is to reduce this to 3%. This is largely conc\nentrated in the   \n private sector stock and although housing vacancy rates have   \n improved (notably in the social sector) this still remains an issue,   \n particularly in our Opportunity Areas (Policy CS3). Gateshead and   \n Newcastle are committed to working with partners including private  \n landlords to bring empty properties back into use and ensure that they  \n do not have a detrimental effect on otherwise sustainable, safe   \n and pleasant communities. This will be achieved via a mixed approach  \n of enforcement, engagement and encouraging ne\nw development and  \n investment in homes for which there is demand, while replacing   \n obsolete or poor quality housing.\n10.8   Demolishing unpopular existing stock, replacing it with new homes \nto better address housing needs and aspirations, as identified in the\n \nStrategic Housing Market Assessment (SHMA)35, will further enhance and \nsustain communities. The demolition and replacement of low-demand \npoor quality housing will be supported as part of the wider regeneration \nprogrammes across Gateshead and Newcastle. The number of losses \nthrough demolition and change of use is expected to be approximately \n4,500 losses during the plan period.\n75\nHomes           Section 3"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.185-185#c340",
+        "page_start": 185,
+        "page_end": 185,
+        "score": 8.394532788941799,
+        "snippet": "raphy, and previous industrial activity. The Quayside\u2019s \nsteep Tyne Gorge slopes combine with historic buildings, iconic bridges \nand landmark buildings to form a memorable and instantly recognisable \nlocation, while the Tyne Gorge landscap\u2026",
+        "text": "raphy, and previous industrial activity. The Quayside\u2019s \nsteep Tyne Gorge slopes combine with historic buildings, iconic bridges \nand landmark buildings to form a memorable and instantly recognisable \nlocation, while the Tyne Gorge landscape of the Ouseburn River creates \na very tight, enclosed, intimate character which still contains many \nstriking former industrial buildings on small plots along the river.\n16.68\n  The Quayside has a long history as a port and focus for industrial activity. \nThere have been tw\no historically significant periods of development. \nThe first was during medieval times which saw the development \nof merchants\u2019 houses and warehouses. The second was during the \nindustrial revolution which saw the expansion of development along \nthe River Tyne and large warehouses dominated the landscape. From \nthe 17th century and through to the 19th century the Ouseburn \nplayed a key role in the Industrial Revolution on Tyneside. There were \nmany industrial uses along the river including glassworks, leadworks, \nlimeworks, mills and potteries and many of the warehouses still remain \ntoday providing an attractive setting for 21st century development.\n16.69\n  From the mid 20th century the port moved downstream and the industry\n \ndeclined. Large areas of the Quayside and Ouseburn were abandoned \nand many buildings fell into a state of disrepair and decay. The \nrenaissance of the Quayside began in the late 1980s.\n185\nNewcastle Sub-Areas and Site Specific Policies"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.100-100#c184",
+        "page_start": 100,
+        "page_end": 100,
+        "score": 8.365392921191319,
+        "snippet": "Policy CS16 Climate Change\nDevelopment will be sustainable, able to function effectively in a changing \nclimate and address impacts on climate change emissions. Development will be \nrequired to:\n 1.  Use a good standard of building fabric, \u2026",
+        "text": "Policy CS16 Climate Change\nDevelopment will be sustainable, able to function effectively in a changing \nclimate and address impacts on climate change emissions. Development will be \nrequired to:\n 1.  Use a good standard of building fabric, passive design, and landscaping \nmeasur\nes to minimise energy demand,\n 2. Be flexible from the outset to allow adaptation to alternative uses,\n 3.  Deliver a good level of sustainability required b\ny relevant government \nschemes/guidance, \n 4.  Minimise its contributions and provide resilience to the ongoing and \npr\nedicted impacts of climate change,\n 5. Reduce its whole-life CO2 equivalent emissions impact, and\n 6.  Optimise the use of local renewable or low carbon energy in accor\ndance \nwith the following hierarchy:\n   i.  Connection to an existing, or make provision for futur\ne connection, to \na committed wider decentralised energy scheme within a specified \ntimeframe,\n  ii.  Development of a decentralised energy scheme for the whole or\n \nsignificant portion of a development from the outset, including joint \nschemes with significant adjacent external energy loads,\n   iii. Incorporation of other renewable energy solutions,\n   iv. Incorporation of other low carbon energy solutions in accor\ndance with   \n   current government guidelines.\n12.24  The two main policy responses to climate change are mitigation and \nadaptation. Both are needed. Mitigation seeks to reduc\ne the causes \nof climate change, such as lessening greenhouse gas emissions"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.155-155#c287",
+        "page_start": 155,
+        "page_end": 155,
+        "score": 8.3487805629027,
+        "snippet": "155\nUrban Core           Section 4\n14.103  The Green Infrastructure Strategy Report identifies the Strate gic \nInfrastructure Network for Gateshead and Newcastle. Although, the \nmajority of this falls outside the Urban Core boundary, Leazes\u2026",
+        "text": "155\nUrban Core           Section 4\n14.103  The Green Infrastructure Strategy Report identifies the Strate gic \nInfrastructure Network for Gateshead and Newcastle. Although, the \nmajority of this falls outside the Urban Core boundary, Leazes Park, \nExhibition Park, the Ouseburn and the River Tyne all form part of the \nnetwork. The Urban Green Infrastructure Network is the fine grained \nand locally significant element of green infrastructure within the urban \narea, including existing and proposed links to the Strategic Green \nInfrastructure Network as shown on Figure 14.11.\n14.104\n  We will address the gaps in the network which exist due to the densely \ndev\neloped nature of the Urban Core. The Urban Core contains large \nareas of formal green space including Exhibition Park, Leazes Park, \nWindmill Hills Park and more informal green spaces in the Ouseburn \nValley and Riverside Park. These are supported by smaller green spaces \nthroughout the Urban Core. Together with the Ouseburn Valley and the \nRiver Tyne corridor, this provides the base on which to further develop \nthis network.\n14.105\n  A range of measures will be supported, including  climate change \nmitigation or adaption measures to addr\ness the gaps in our Green \nInfrastructure Network and to enhance, protect and increase the \nmultifunctionality and biodiversity of green infrastructure in the Urban \nCore. These include:\n  \u2022  The creation of new green spaces,\n  \u2022   The temporary greening of vacant medium/long term \ndevelopm"
+      },
+      {
+        "authority": "newcastle",
+        "doc_key": "csucp_2015",
+        "doc_title": "Core Strategy and Urban Core Plan (Adopted 2015)",
+        "source_path": "../data/sources/policies/newcastle/csucp_adopted_2015.pdf",
+        "paragraph_ref": "pp.130-130#c245",
+        "page_start": 130,
+        "page_end": 130,
+        "score": 8.140358490973563,
+        "snippet": "he appearance, use and ac\ncessibility \nof attractions including:\n  i.  Creating a riverside leisure route along the River Tyne fr\nom the Swing \nBridge to the Gateshead Millennium Bridge,\n  ii.  Relocating Keelman\u2019s Way to follow the river\u2019s\u2026",
+        "text": "he appearance, use and ac\ncessibility \nof attractions including:\n  i.  Creating a riverside leisure route along the River Tyne fr\nom the Swing \nBridge to the Gateshead Millennium Bridge,\n  ii.  Relocating Keelman\u2019s Way to follow the river\u2019s edg\ne, providing \npedestrian access to Gateshead Quays between the Swing Bridge and \nthe Millennium Bridge.\n14.32\n  Visitors are attracted to the Urban Core from the re\ngion, UK and beyond. \nWe have a diverse range of attractions including modern museums, \ntheatres, historic areas, music and nightlife venues and sporting \nfacilities. Our historic assets are particularly attractive and we have \na rich historic and cultural legacy including the iconic riverfront area \nand a wealth of historic buildings, streets and spaces together with \narchaeological remains. Heritage led and cultural led regeneration \nand investment within Gateshead and Newcastle has made a huge \ncontribution to the area. \n14.33\n  Heritage led regeneration in Grainger T\nown has already extended our \nvariety of leisure, culture and tourism uses and we will seek to maintain \nthe momentum of regeneration and promote a range of uses here. \nFurther diversification of these uses will be promoted to increase the \nnumber of visitors into the Urban Core providing they do not have an \nadverse impact on surrounding uses.\n130\nUrban Core"
+      }
+    ]
+  },
+  "report": {
+    "decision": "approve_with_conditions",
+    "confidence": 1.0,
+    "summary": "Preliminary recommendation based on policy evidence. Subject to full officer judgement.",
+    "draft_conditions": [
+      "Materials to match the existing dwelling unless otherwise agreed in writing.",
+      "Development to be carried out in accordance with approved plans."
+    ],
+    "note": "Deterministic Stage 3 output. Precedents + LLM reasoning added in Stage 4."
+  }
+}

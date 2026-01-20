@@ -1,0 +1,283 @@
+#!/usr/bin/env python3
+import argparse
+import json
+import re
+from datetime import datetime
+from pathlib import Path
+
+def load_json(p: Path) -> dict:
+    return json.loads(p.read_text(encoding="utf-8"))
+
+def load_weights(root: Path) -> dict:
+    cfg = root / "config" / "relevance_weights.json"
+    if cfg.exists():
+        return json.loads(cfg.read_text(encoding="utf-8"))
+    return {}
+
+def norm(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
+
+def text_has_any(text: str, terms: list[str]) -> bool:
+    t = (text or "").lower()
+    return any(k.lower() in t for k in terms)
+
+def topic_hits(text: str) -> dict:
+    t = (text or "").lower()
+    topics = {
+        "leisure": ["leisure", "cinema", "theatre", "museum", "arena", "nightclub", "tourist", "tourism", "visitor"],
+        "employment": ["employment", "office floorspace", "industrial", "warehousing", "b1", "b2", "b8"],
+        "retail": ["retail", "shopping", "primary shopping", "frontage", "centres hierarchy"],
+        "nightlife": ["nightclub", "late night", "bar", "pub"]
+    }
+    hits = {}
+    for k, terms in topics.items():
+        hits[k] = sum(1 for term in terms if term in t)
+    return hits
+
+def score_evidence_item(item: dict, weights: dict) -> float:
+    base = float(item.get("score", 0.0))
+    txt = (item.get("text") or item.get("snippet") or "")
+    th = topic_hits(txt)
+
+    penalty = 0.0
+    topic_penalties = weights.get("topic_penalties", {})
+    for topic, count in th.items():
+        if count <= 0:
+            continue
+        penalty += float(topic_penalties.get(topic, 0.0)) * count
+
+    # Boost if C3-ish keywords present
+    boost = 0.0
+    c3_keywords = weights.get("c3_keywords", [])
+    c3_boost = float(weights.get("c3_keyword_boost", 0.0))
+    if text_has_any(txt, c3_keywords):
+        boost += c3_boost
+
+    irrelevance_penalty_per_hit = float(weights.get("irrelevance_penalty_per_hit", 0.0))
+    total_hits = sum(th.values())
+    penalty += irrelevance_penalty_per_hit * total_hits
+
+    final = base + boost - penalty
+    floor = float(weights.get("min_score_floor", 0.1))
+    return max(final, floor)
+
+def pick_evidence(payload: dict, weights: dict) -> list[dict]:
+    evidence = payload.get("policy", {}).get("evidence", []) or []
+    if not evidence:
+        return []
+
+    # Score + sort
+    scored = []
+    for e in evidence:
+        scored.append((score_evidence_item(e, weights), e))
+    scored.sort(key=lambda x: x[0], reverse=True)
+
+    # Enforce doc diversity lightly
+    max_items = int(weights.get("max_evidence_items", 10))
+    diversity_target = int(weights.get("doc_diversity_target", 2))
+
+    picked = []
+    seen_docs = set()
+    # first pass: collect at least one per doc until target reached
+    for s, e in scored:
+        doc = e.get("doc_key") or ""
+        if doc and doc not in seen_docs:
+            picked.append((s, e))
+            seen_docs.add(doc)
+        if len(seen_docs) >= diversity_target:
+            break
+
+    # second pass: fill remaining by score
+    for s, e in scored:
+        if len(picked) >= max_items:
+            break
+        if any(id(e) == id(pe) for _, pe in picked):
+            continue
+        picked.append((s, e))
+
+    return [e for _, e in picked]
+
+def section_assessment(proposal: str, picked: list[dict]) -> list[str]:
+    # Deterministic “assessment headings” with placeholder logic.
+    txt = "\n".join([(p.get("text") or p.get("snippet") or "") for p in picked]).lower()
+
+    bullets = []
+    # Principle of development
+    bullets.append("### 5.1 Principle of Development")
+    if "change of use" in proposal.lower() or "c3" in proposal.lower() or "dwelling" in proposal.lower():
+        bullets.append("- The proposal is assessed on the acceptability of residential (Use Class C3) use in the location, having regard to the development plan and material considerations.")
+    else:
+        bullets.append("- The principle of development is assessed against the development plan policies and material considerations relevant to the proposal described.")
+
+    # Residential amenity
+    bullets.append("\n### 5.2 Residential Amenity")
+    if any(k in txt for k in ["amenity", "noise", "privacy", "overlooking"]):
+        bullets.append("- Key considerations include noise, privacy/overlooking, outlook, and general living conditions for neighbours and future occupiers.")
+    else:
+        bullets.append("- Residential amenity impacts require officer review; typical considerations include privacy, noise, and general living conditions.")
+
+    # Highways / access
+    bullets.append("\n### 5.3 Highway Safety / Parking / Servicing")
+    if any(k in txt for k in ["parking", "highway", "cycle", "refuse", "bin"]):
+        bullets.append("- Servicing arrangements, refuse storage/collection, and any parking/cycle provision should be confirmed and conditioned as necessary.")
+    else:
+        bullets.append("- Highway/servicing impacts require officer review; conditions may be appropriate depending on the site context.")
+
+    # Design / character (always include but keep measured)
+    bullets.append("\n### 5.4 Design and Character")
+    bullets.append("- As internal alterations are referenced, external design impacts may be limited; however, any external changes should preserve local character and appearance.")
+
+    # Climate/sustainability (if referenced)
+    bullets.append("\n### 5.5 Climate / Sustainability")
+    if "climate" in txt or "co2" in txt or "energy" in txt:
+        bullets.append("- Sustainability measures and energy efficiency are material; conditions/notes may be used where relevant.")
+    else:
+        bullets.append("- Sustainability considerations apply in principle; detailed requirements depend on the proposal specifics.")
+
+    return bullets
+
+def build_report(payload_path: Path, out_path: Path) -> None:
+    root = Path(__file__).resolve().parents[1]
+    weights = load_weights(root)
+    payload = load_json(payload_path)
+
+    proposal = norm(payload.get("input", {}).get("proposal_text", ""))
+    authority = payload.get("input", {}).get("authority", "newcastle")
+    doc_keys = payload.get("input", {}).get("doc_keys", [])
+    decision = payload.get("report", {}).get("decision", "officer_review")
+    confidence = payload.get("report", {}).get("confidence", None)
+    draft_conditions = payload.get("report", {}).get("draft_conditions", []) or []
+
+    picked = pick_evidence(payload, weights)
+
+    lines = []
+    lines.append("# CASE OFFICER REPORT (DRAFT – PILOT, DETERMINISTIC)\n")
+    lines.append(f"**Authority:** Newcastle City Council  ")
+    lines.append(f"**Application Ref:** [OFFICER REVIEW]  ")
+    lines.append(f"**Site Address:** [OFFICER REVIEW]  ")
+    lines.append(f"**Proposal:** {proposal or '[OFFICER REVIEW]'}  ")
+    lines.append(f"**Date:** {datetime.now().strftime('%Y-%m-%d')}  ")
+    if confidence is not None:
+        lines.append(f"**Engine Confidence (heuristic):** {confidence}  ")
+    lines.append("\n---\n")
+
+    # 1 Site/context
+    lines.append("## 1.0 Site and Surroundings")
+    lines.append("[OFFICER REVIEW] Describe site context, planning history, constraints (conservation area/listed/building regs), and surrounding uses.\n")
+
+    # 2 Proposal
+    lines.append("## 2.0 The Proposal")
+    lines.append(proposal or "[OFFICER REVIEW]\n")
+
+    # 3 Relevant Planning Policy
+    lines.append("## 3.0 Relevant Planning Policy")
+    lines.append("### 3.1 Documents Queried (pilot)")
+    lines.append(f"- Authority: `{authority}`")
+    lines.append(f"- Documents: `{', '.join(doc_keys)}`\n")
+
+    lines.append("### 3.2 Key Policy Evidence (ranked + filtered)")
+    if not picked:
+        lines.append("- [AUTO] No evidence returned. Officer to confirm relevant policies.\n")
+    else:
+        for e in picked:
+            doc_title = e.get("doc_title", e.get("doc_key", ""))
+            pref = e.get("paragraph_ref", "")
+            score = e.get("score", "")
+            src = e.get("source_path", "")
+            pg = f"{e.get('page_start','?')}-{e.get('page_end','?')}"
+            snip = (e.get("snippet") or "").strip()
+            lines.append(f"- **{doc_title}** — {pref} (pp.{pg}) — raw score {score}")
+            if snip:
+                lines.append(f"  - Excerpt: “{snip[:220].strip()}…”")
+            lines.append(f"  - Source: `{src}`\n")
+
+    # 4 Consultation (placeholder)
+    lines.append("
+## 3.X Similar applications (precedents)
+> These are retrieved using the FAISS similarity index built from Newcastle planning portal data. Use as context/checklist, not as definitive constraints.
+
+
+    try:
+        import subprocess, json as _json
+        cmd = ["python3", "scripts/get_precedents.py", proposal]
+        raw = subprocess.check_output(cmd, text=True).strip()
+        precedents = _json.loads(raw) if raw else []
+    except Exception:
+        precedents = []
+
+    if precedents:
+        for pr in precedents[:5]:
+            meta = pr.get("meta") or {}
+            ref = meta.get("reference") or meta.get("app_ref") or meta.get("application_ref") or meta.get("uid") or meta.get("id")
+            addr = meta.get("address") or meta.get("site") or meta.get("site_address") or meta.get("location") or ""
+            title = ""
+            tf = meta.get("text_fields") or []
+            if isinstance(tf, list) and tf:
+                title = tf[0]
+            md.append(f"- **{ref}** — {addr}")
+            if title:
+                md.append(f"  - Proposal: {title}")
+            md.append(f"  - Similarity score: {pr.get('score')}")
+    else:
+        md.append("- None returned (index not available or query returned no matches).")
+    md.append("")
+
+
+## 4.0 Consultation Responses")
+    lines.append("[OFFICER REVIEW] Summarise internal/external consultation responses (highways, environmental health, neighbours, etc.).\n")
+
+    # 5 Assessment
+    lines.append("## 5.0 Assessment")
+    lines.extend(section_assessment(proposal, picked))
+    lines.append("")
+
+    # 6 Planning balance
+    lines.append("## 6.0 Planning Balance")
+    if "approve" in str(decision).lower():
+        lines.append("- The proposal is considered acceptable in principle, subject to detailed matters (amenity/servicing) being controlled through conditions where necessary.")
+        lines.append("- The balance of considerations weighs in favour of approval, subject to final officer assessment and any consultation feedback.\n")
+    elif "refuse" in str(decision).lower():
+        lines.append("- The balance of considerations indicates harm that is not outweighed by benefits, subject to final officer assessment.\n")
+    else:
+        lines.append("- [OFFICER REVIEW] Officer to weigh policy compliance and material considerations.\n")
+
+    # 7 Recommendation
+    lines.append("## 7.0 Recommendation")
+    lines.append(f"**Recommendation (pilot):** `{decision}`\n")
+
+    if "approve" in str(decision).lower():
+        lines.append("### 7.1 Conditions (Draft – Officer Review)")
+        if draft_conditions:
+            for i, c in enumerate(draft_conditions, 1):
+                lines.append(f"{i}. {c}")
+        else:
+            lines.append("1. Time limit (3 years).")
+            lines.append("2. Approved plans.")
+        lines.append("")
+    elif "refuse" in str(decision).lower():
+        lines.append("### 7.1 Reasons for Refusal (Draft – Officer Review)")
+        lines.append("1. [AUTO] Insert reasons clearly linked to specific development plan policies and identified harms.\n")
+
+    # 8 Evidence appendix
+    lines.append("## 8.0 Evidence Appendix (Traceability)")
+    lines.append(f"- Payload source: `{payload_path}`")
+    lines.append(f"- Weights config: `{(root / 'config' / 'relevance_weights.json')}`")
+    lines.append("")
+
+    out_path.write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
+    print(f"OK: wrote {out_path}")
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("payload_json", help="Payload JSON from engine output")
+    ap.add_argument("-o", "--out", default="logs/report_latest_case_officer.md")
+    args = ap.parse_args()
+
+    payload_path = Path(args.payload_json)
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    build_report(payload_path, out_path)
+
+if __name__ == "__main__":
+    main()

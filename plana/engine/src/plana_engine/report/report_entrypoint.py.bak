@@ -1,0 +1,87 @@
+from __future__ import annotations
+from typing import Any, Dict, List, Optional
+
+from plana_engine.policies.retrieve_policies import retrieve_policies
+from plana_engine.report.judgment import make_recommendation
+
+def build_case_officer_report_payload(
+    proposal_text: str,
+    authority: str = "newcastle",
+    doc_keys: Optional[List[str]] = None,
+    top_k_policies: int = 10,
+    min_policy_score: float = 2.0,
+    # precedents optional for now (wire later)
+    case_block: Optional[Dict[str, Any]] = None,
+    require_precedent: bool = False,
+) -> Dict[str, Any]:
+
+    if not doc_keys:
+        doc_keys = ["dap_2020", "csucp_2015", "nppf_2024"]
+
+    policy_block = retrieve_policies(
+        query=proposal_text,
+        top_k=top_k_policies,
+        authority=authority,
+        doc_keys=doc_keys,
+        min_score=min_policy_score
+    )
+
+    judgment = make_recommendation(
+        proposal_text=proposal_text,
+        policy_block=policy_block if policy_block else {"ok": False, "reason": "no_policy_block"},
+        case_block=case_block,
+        require_precedent=require_precedent
+    )
+
+    # “Report” sections are structured now; Lovable can render them later.
+    sections = [
+        {"key": "proposal", "title": "Proposal", "text": proposal_text},
+        {"key": "policy", "title": "Relevant Policy", "text": "Policy evidence retrieved and cited below."},
+        {"key": "assessment", "title": "Planning Assessment", "text": "Assessment is based on retrieved policy evidence and (when enabled) similar decisions."},
+        {"key": "recommendation", "title": "Recommendation", "text": judgment["decision"]},
+    ]
+
+    return {
+        "ok": True if judgment["decision"] != "insufficient_evidence" else False,
+        "reason": judgment.get("reason"),
+        "input": {
+            "proposal_text": proposal_text,
+            "authority": authority,
+            "doc_keys": doc_keys,
+            "require_precedent": require_precedent
+        },
+        "report": {
+            "decision": judgment["decision"],
+            "draft_conditions": judgment.get("draft_conditions", []),
+            "draft_refusal_reasons": judgment.get("draft_refusal_reasons", []),
+            "issues": judgment.get("issues", []),
+            "sections": sections,
+        },
+        # These are the citations Lovable must show / link
+        "policy": {
+            "ok": policy_block.get("ok"),
+            "reason": policy_block.get("reason"),
+            "citations": policy_block.get("citations") or [],
+            "evidence": policy_block.get("evidence") or [],
+        },
+        "precedents": case_block or {"ok": False, "reason": "not_enabled", "results": []},
+        "signals": judgment.get("signals", {}),
+    }
+
+if __name__ == "__main__":
+    import argparse, json
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--proposal", required=True)
+    ap.add_argument("--authority", default="newcastle")
+    ap.add_argument("--doc_keys", default="dap_2020,csucp_2015,nppf_2024")
+    ap.add_argument("--require_precedent", action="store_true")
+    args = ap.parse_args()
+
+    dk = [d.strip() for d in args.doc_keys.split(",")] if args.doc_keys else None
+    out = build_case_officer_report_payload(
+        proposal_text=args.proposal,
+        authority=args.authority,
+        doc_keys=dk,
+        require_precedent=args.require_precedent
+    )
+    print(json.dumps(out, indent=2))
