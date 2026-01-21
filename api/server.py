@@ -3,6 +3,7 @@ import json
 import subprocess
 from pathlib import Path
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 BASE = Path(__file__).resolve().parents[1]  # .../Newcastle
@@ -14,6 +15,12 @@ class AnalyzeRequest(BaseModel):
     proposal_text: str
 
 app = FastAPI(title="Plana Newcastle C3 Pilot API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():
